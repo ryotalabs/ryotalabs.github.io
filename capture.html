@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnkiAI Capture — how it is built on Claude</title>
+<meta name="description" content="Technical design of AnkiAI Capture: turning photos, PDFs, and notes into source-grounded flashcards with Claude.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F6F7F4;--ink:#14213D;--muted:#55607A;--line:#D9DDE3;--sign:#F2C230;--pine:#2F6E5B;
+    --font:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+    --code:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.75}
+  a{color:inherit}
+  a:focus-visible{outline:3px solid var(--sign);outline-offset:3px;border-radius:6px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  header{padding:56px 0 32px}
+  .back{font-size:15px;color:var(--muted)}
+  h1{font-weight:900;font-size:clamp(34px,6vw,60px);line-height:1.08;letter-spacing:-.02em;margin:20px 0 0}
+  .lede{font-size:19px;color:var(--muted);max-width:60ch;margin:20px 0 0}
+  section{padding:44px 0;border-top:1px solid var(--line)}
+  h2{font-size:26px;margin:0 0 16px}
+  h3{font-size:18px;margin:28px 0 6px}
+  p{margin:0 0 14px;max-width:68ch}
+  ol.pipe{list-style:none;counter-reset:s;padding:0;margin:20px 0 0;display:grid;gap:12px}
+  ol.pipe li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;background:#fff;border-radius:14px;padding:16px 18px}
+  ol.pipe li::before{content:counter(s);width:44px;height:44px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900}
+  ol.pipe b{display:block}
+  .why{display:grid;gap:14px;margin-top:16px}
+  .why div{border-left:6px solid var(--sign);background:#fff;padding:14px 18px;border-radius:0 12px 12px 0}
+  .why b{display:block;margin-bottom:4px}
+  pre{background:var(--ink);color:#E8ECF4;padding:18px 20px;border-radius:14px;overflow-x:auto;font-family:var(--code);font-size:13.5px;line-height:1.6}
+  code{font-family:var(--code);font-size:.92em;background:#E9ECF1;padding:1px 5px;border-radius:5px}
+  pre code{background:none;padding:0}
+  .tbl{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:700}
+  footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="back" href="/">Ryota Labs</a>
+  <h1>AnkiAI Capture: from any page to a deck you can trust.</h1>
+  <p class="lede">Photograph a textbook page, drop in a lecture PDF, or paste notes. Capture writes flashcards, ties every card to the sentence it came from, and hands them to AnkiAI's FSRS scheduler only after you approve them.</p>
+</header>
+
+<section>
+  <h2>What learners get</h2>
+  <p>Four card types chosen per concept: question and answer, cloze deletion for terms and formulas, reversible cards for vocabulary, and reading cards that drill kanji readings with furigana.</p>
+  <p>Every card has a source button. Tapping it opens the original page with the supporting sentence highlighted, so a learner can settle any doubt in one second instead of trusting the AI blindly.</p>
+  <p>A review tray before saving: accept, edit, or reject each card. Rejections ask for a one-tap reason (too easy, ambiguous, wrong, duplicate), and those reasons shape the next deck.</p>
+  <p>During study, a premium "Why was I wrong?" button explains the answer using only the cited source, with the page reference attached.</p>
+  <p>Large textbooks can be queued as an overnight build that is ready the next morning at lower cost.</p>
+</section>
+
+<section>
+  <h2>Pipeline</h2>
+  <ol class="pipe">
+    <li><div><b>Ingest</b>Camera pages come in through VisionKit's document scanner, PDFs through the share sheet or Files app. Each source is uploaded once to the Claude Files API and referenced by <code>file_id</code> for every later pass.</div></li>
+    <li><div><b>Transcribe images</b>Photos and handwritten notes go through Claude's vision input and become a clean plain-text document, page by page. PDFs skip this step because Claude reads their text and page images natively.</div></li>
+    <li><div><b>Ground</b>The source is sent as a document block with citations enabled. Claude lists the facts worth memorizing, and the API attaches the exact supporting spans: page ranges for PDFs, character ranges for transcribed text.</div></li>
+    <li><div><b>Generate</b>A second call turns the grounded facts into cards using structured outputs, so every response matches the card schema below and parses without a retry loop.</div></li>
+    <li><div><b>Verify</b>A low-effort pass checks each card against its cited span and drops anything not answerable from the source, any duplicate of an existing card, and any front that admits two answers.</div></li>
+    <li><div><b>Review and schedule</b>Approved cards enter FSRS. Cards from the same fact are linked as siblings so they are never shown on the same day.</div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Why Claude</h2>
+  <p>Generation quality is the product. A card that is wrong, vague, or untraceable costs a learner more than no card at all. These are the specific Claude capabilities the design depends on.</p>
+  <div class="why">
+    <div><b>Native PDF understanding</b>Claude processes both the extracted text and the rendered page images of a PDF. Lecture slides put meaning in diagrams, tables, and layout, so a text-only OCR pipeline loses it. One API call replaces an OCR stage, a layout parser, and a captioning model.</div>
+    <div><b>Citations API for grounding</b>With citations enabled, PDFs are chunked into sentences and responses carry citation blocks with page ranges. The source anchor on each card comes from the API, not from text the model writes, so a card can never point to a quote that does not exist. This is the core trust feature of Capture.</div>
+    <div><b>Structured outputs for the card schema</b>JSON outputs constrained by a schema guarantee every card has a valid type, front, back, and source reference. Citations and structured outputs cannot share one request, which is why grounding and generation are separate passes joined by span IDs.</div>
+    <div><b>Vision on mixed Japanese and English</b>Japanese study material mixes kanji, kana, Latin script, formulas, and handwriting on the same page. Claude transcribes these in a single pass, and the transcript becomes a citable text document so photographed pages get source anchors too (images embedded in PDFs cannot be cited directly).</div>
+    <div><b>Long context across a whole document</b>An entire lecture PDF fits in one request, so a term defined on page 3 and applied on page 40 becomes one concept with linked cards instead of two disconnected ones.</div>
+    <div><b>Prompt caching</b>The source document and the system prompt with the learner's style preferences are cached once and reused across the ground, generate, verify, and "make more cards" calls, cutting both latency and input cost on every follow-up.</div>
+    <div><b>Message Batches API</b>Overnight builds for full textbooks run through the Batches API at half the price of standard calls, which keeps a large deck inside the subscription's margin.</div>
+    <div><b>Model and effort routing</b>Haiku handles transcription and simple vocabulary decks; Sonnet handles concept extraction and card writing. The effort parameter is set low for verification and higher for concept-heavy material, so cost follows difficulty.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Card schema</h2>
+  <pre><code>{
+  "cards": [{
+    "type": "basic | cloze | reverse | reading",
+    "front": "string",
+    "back": "string",
+    "concept_id": "string",        // siblings share this; FSRS buries them
+    "source_span_ids": ["s12"],    // joins to citations from the Ground pass
+    "difficulty_hint": 1,          // 1-5, initial ordering only; FSRS owns scheduling
+    "tags": ["string"]
+  }]
+}</code></pre>
+  <h3>Card-writing rules in the system prompt</h3>
+  <p>One fact per card. Fronts must have exactly one correct answer. Prefer cloze for terms and formulas, reverse for vocabulary pairs, reading cards for kanji. Never introduce facts absent from the cited span. Match the learner's language and target exam level.</p>
+</section>
+
+<section>
+  <h2>Security, privacy, and cost control</h2>
+  <div class="tbl"><table>
+    <tr><th>Concern</th><th>Design</th></tr>
+    <tr><td>API key exposure</td><td>No key in the app. Calls go through a Cloudflare Workers proxy that holds the key.</td></tr>
+    <tr><td>Abuse</td><td>The proxy accepts only requests from genuine app installs (App Attest) and checks the StoreKit 2 signed transaction for premium features.</td></tr>
+    <tr><td>Runaway cost</td><td>Per-user daily page quotas, plus caching and batch builds to keep each deck's cost predictable.</td></tr>
+    <tr><td>User documents</td><td>Uploaded files are deleted from the Files API once the deck is built. Decks themselves stay on device and in the user's own sync account.</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2>Milestones</h2>
+  <ol class="pipe">
+    <li><div><b>Prototype</b>Ground and generate passes working on PDFs, measured on my own study material.</div></li>
+    <li><div><b>TestFlight</b>Camera ingest, review tray, source jump, and the proxy with App Attest.</div></li>
+    <li><div><b>Launch</b>Capture in the premium plan, followed by overnight batch builds and "Why was I wrong?".</div></li>
+  </ol>
+</section>
+</div>
+<footer><div class="wrap">Built by Ryota Labs, an independent studio in Japan. <a href="/">All apps</a></div></footer>
+</body>
+</html>
