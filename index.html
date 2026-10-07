@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ryota Labs — Indie iOS apps</title>
+<meta name="description" content="Small, focused iPhone apps built and maintained by Ryota Labs, an independent studio in Japan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F7F4;
+    --ink:#14213D;
+    --muted:#55607A;
+    --line:#D9DDE3;
+    --sign:#F2C230;   /* bus-stop yellow */
+    --pine:#2F6E5B;
+    --font:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7}
+  a{color:inherit}
+  a:focus-visible{outline:3px solid var(--sign);outline-offset:3px;border-radius:6px}
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+
+  header{padding:72px 0 40px}
+  .who{font-size:15px;color:var(--muted);margin:0 0 20px}
+  h1{font-weight:900;font-size:clamp(40px,7.5vw,84px);line-height:1.02;letter-spacing:-.02em;margin:0;max-width:12ch}
+  .lede{max-width:56ch;margin:28px 0 0;font-size:19px;color:var(--muted)}
+
+  /* home-screen shelf: the one bold element */
+  .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:28px 20px;margin:56px 0 16px;padding:32px;background:var(--ink);border-radius:36px}
+  .app{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:#fff}
+  .icon{width:96px;height:96px;border-radius:24px;display:grid;place-items:center;font-weight:900;font-size:30px;letter-spacing:-.03em}
+  .app span{margin-top:10px;font-size:14px;line-height:1.35}
+  .app:hover .icon{transform:translateY(-2px)}
+  .icon{transition:transform .15s ease}
+  @media (prefers-reduced-motion:reduce){.icon{transition:none}}
+
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  h2{font-size:28px;font-weight:700;margin:0 0 24px}
+  .list{display:grid;gap:28px}
+  .item{display:grid;grid-template-columns:200px 1fr;gap:24px}
+  .item h3{margin:0;font-size:18px;font-weight:700}
+  .item .cat{font-size:14px;color:var(--muted)}
+  .item p{margin:0;max-width:62ch}
+  .note{font-size:14px;color:var(--muted);margin-top:6px}
+  .claude{background:#fff;border-left:6px solid var(--sign);padding:24px 28px;border-radius:0 16px 16px 0;max-width:70ch}
+  .claude p{margin:0 0 12px}
+  .claude p:last-child{margin:0}
+  footer{padding:48px 0 72px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+  footer a{color:var(--ink);font-weight:700}
+
+  @media (max-width:640px){
+    header{padding:48px 0 24px}
+    .shelf{padding:24px 16px;border-radius:28px;grid-template-columns:repeat(3,1fr);gap:20px 8px}
+    .icon{width:72px;height:72px;border-radius:18px;font-size:22px}
+    .app span{font-size:12px}
+    .item{grid-template-columns:1fr;gap:6px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="who">Ryota Labs — independent app studio, Japan</p>
+  <h1>Small iPhone apps for everyday problems.</h1>
+  <p class="lede">I design, build, and maintain focused iOS apps on my own: study tools, personal record-keeping, and utilities for people who use AI every day. Every app below is live on the App Store.</p>
+
+  <nav class="shelf" aria-label="Apps">
+    <a class="app" href="https://apps.apple.com/app/id6761328158"><div class="icon" style="background:#F7D6DE;color:#8A2D45">美</div><span>美容医療を<br>かんたん管理</span></a>
+    <a class="app" href="https://apps.apple.com/app/id6760307611"><div class="icon" style="background:var(--sign);color:var(--ink)">Ai</div><span>AnkiAI<br>FlashCards</span></a>
+    <a class="app" href="https://apps.apple.com/app/id6749826426"><div class="icon" style="background:#DCE8FF;color:#1F4FB8">💬</div><span>AIチャット<br>画像変換</span></a>
+    <a class="app" href="https://apps.apple.com/app/id6744859226"><div class="icon" style="background:var(--pine);color:#fff">Gt</div><span>GitAITrend</span></a>
+    <a class="app" href="https://apps.apple.com/app/id6741425012"><div class="icon" style="background:#fff;color:var(--ink)">QR</div><span>QR Keeper</span></a>
+    <a class="app" href="https://apps.apple.com/jp/app/id1491015874"><div class="icon" style="background:#E9573F;color:#fff">🚌</div><span>Busdes!</span></a>
+  </nav>
+</header>
+
+<section>
+  <h2>Apps</h2>
+  <div class="list">
+    <div class="item">
+      <div><h3>美容医療をかんたん管理</h3><div class="cat">Health &amp; Fitness · 2026</div></div>
+      <p>A simple log for aesthetic-clinic treatments: what was done, when, and what comes next.</p>
+    </div>
+    <div class="item">
+      <div><h3>AnkiAI FlashCards</h3><div class="cat">Education · 2026</div></div>
+      <p>Flashcards scheduled with FSRS spaced repetition. Works fully offline, syncs across devices with an account, and imports decks from CSV. Free with an optional subscription.</p>
+    </div>
+    <div class="item">
+      <div><h3>AIチャット画像変換</h3><div class="cat">Productivity · 2025</div></div>
+      <p>Turns AI chat transcripts and Markdown snippets into clean images you can post on social media or send to your team.</p>
+    </div>
+    <div class="item">
+      <div><h3>GitAITrend</h3><div class="cat">Productivity · 2025</div></div>
+      <p>Keeps up with trending AI projects on GitHub.</p>
+    </div>
+    <div class="item">
+      <div><h3>QR Keeper</h3><div class="cat">Photo &amp; Video · 2025</div></div>
+      <p>Saves and organizes the QR codes you need to show again.</p>
+    </div>
+    <div class="item">
+      <div><h3>Busdes!</h3><div class="cat">Navigation · since 2019</div></div>
+      <p>Real-time bus arrivals, delay-adjusted arrival times, and custom routes for students commuting to a university campus in Shiga, on iOS and Android. Rated 4.5 from 151 ratings and still in use today.</p>
+      <p class="note">Founded and led as a four-person student project, recognized with a university scholarship, and transferred to a new maintainer in 2023.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Building with Claude</h2>
+  <div class="claude">
+    <!-- 公開・TestFlight配布したら "In development" を "Live" に変える -->
+    <p><strong>In development: AnkiAI Capture.</strong> Photograph a textbook page, upload a lecture PDF, or paste meeting notes, and Claude turns it into a ready-to-study deck. Each card links back to the exact line it came from, so learners can check it before it enters their FSRS review schedule.</p>
+    <p>Claude handles reading the source (including handwriting and diagrams), choosing what is worth memorizing, and writing clear question-and-answer pairs. Users review and edit every card before saving it. Card generation is part of the premium plan.</p>
+    <p><strong>Why Claude:</strong> Capture reads PDFs natively (text and page images), grounds every card with the Citations API so its source link comes from the API rather than model-written text, and emits cards through structured outputs. Prompt caching and the Batches API keep a full textbook deck inside the subscription's margin. <a href="/capture">Read the technical design</a>.</p>
+    <p><strong>Next:</strong> a weekly digest in GitAITrend that uses Claude to explain what each trending AI repository does and who it is for, in plain Japanese and English.</p>
+  </div>
+</section>
+
+</div>
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 8px">Ryota Labs — independent app studio based in Japan.</p>
+    <a href="/privacy">Privacy policy</a> &nbsp;/&nbsp; <a href="/terms">Terms of use</a> &nbsp;/&nbsp;
+    Contact: <a href="mailto:hello@ryotalabs.com">hello@ryotalabs.com</a> &nbsp;/&nbsp; <a href="https://apps.apple.com/developer/id1794113380">App Store</a>
+  </div>
+</footer>
+</body>
+</html>
