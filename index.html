@@ -104,8 +104,24 @@
   .flow li::before{content:counter(s);width:42px;height:42px;border-radius:14px;background:var(--sign);color:var(--ink);display:grid;place-items:center;font-weight:900}
   .flow b{display:block;font-size:16px}
   .flow span{color:#B9C2D6;font-size:15px;line-height:1.6}
-  .why{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
-  .why span{font-size:14px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+
+  /* why claude */
+  .tech-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+  .tech{background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;display:flex;flex-direction:column}
+  .tech .api{align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.03em;padding:4px 12px;border-radius:999px;background:var(--sky);margin-bottom:18px}
+  .tech h3{margin:0 0 10px;font-size:20px;font-weight:900;line-height:1.3}
+  .tech p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+  .schema-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;margin-top:56px}
+  .schema-row h3{margin:0 0 12px;font-size:24px;font-weight:900;line-height:1.3}
+  .schema-row p{margin:0;color:var(--muted)}
+  .schema-row .cap{margin:12px 0 0;font-size:13px}
+  pre.code{margin:0;background:var(--ink);color:#E6EAF2;border-radius:22px;padding:22px 24px;font:14px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow-x:auto;max-width:100%}
+  .mission-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:56px}
+  .point{border-top:3px solid var(--pine);padding:18px 0 0}
+  .point b{display:block;font-size:19px;font-weight:900;margin-bottom:8px}
+  .point p{margin:0;color:var(--muted);font-size:15.5px}
+  .claude-foot{margin:44px 0 0;font-size:15px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center}
+  .claude-foot a{font-weight:700;color:var(--ink)}
 
   /* footer */
   footer{border-top:1px solid var(--line);padding:48px 0 64px;color:var(--muted);font-size:15px}
@@ -114,19 +130,24 @@
   footer nav{display:flex;flex-wrap:wrap;gap:18px}
 
   /* responsive */
-  .hero-grid > *,.capture-grid > *,.apps-grid > *,.pillars > *{min-width:0}
+  .hero-grid > *,.capture-grid > *,.apps-grid > *,.pillars > *,.tech-grid > *,.schema-row > *,.mission-points > *{min-width:0}
   @media (max-width:900px){
     .hero::before{display:none}
     .hero-grid,.capture-grid{grid-template-columns:minmax(0,1fr)}
     .hero-art{max-width:520px;width:100%;margin:0 auto}
     .apps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .pillars{grid-template-columns:minmax(0,1fr)}
+    .tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .schema-row,.mission-points{grid-template-columns:minmax(0,1fr)}
   }
   @media (max-width:600px){
     .wrap{padding:0 16px}
     .top nav a:not(.keep){display:none}
     section{padding:72px 0}
     .apps-grid{grid-template-columns:1fr}
+    .tech-grid{grid-template-columns:minmax(0,1fr)}
+    .tech{padding:24px}
+    pre.code{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;padding:18px}
     .band{margin:0 8px;border-radius:26px;padding:64px 0}
     .stat{min-width:0;flex:1 1 130px}
   }
@@ -149,7 +170,7 @@
     <nav aria-label="Primary">
       <a href="#apps">Apps</a>
       <a href="#mission">Mission</a>
-      <a href="#capture">Claude</a>
+      <a href="#claude">Claude</a>
       <a class="keep" href="#contact">Contact</a>
     </nav>
   </div>
@@ -165,7 +186,7 @@
       <p class="lede">We design, build, and maintain focused apps for study, campus life, and the everyday tools people reach for again and again. Every app below is live on the App Store.</p>
       <div class="cta">
         <a class="btn" href="#apps">Explore the apps</a>
-        <a class="btn ghost" href="#capture">How we use Claude</a>
+        <a class="btn ghost" href="#claude">How we use Claude</a>
       </div>
       <div class="stats">
         <div class="stat"><b>15,000+</b><span>total downloads</span></div>
@@ -425,14 +446,7 @@
           <li><div><b>Generate</b><span>Structured outputs turn each fact into a card that matches a fixed schema.</span></div></li>
           <li><div><b>Verify</b><span>A second pass drops cards that the cited source cannot answer, and duplicates.</span></div></li>
           <li><div><b>Review and schedule</b><span>You approve each card. Approved cards enter the FSRS review schedule.</span></div></li>
-        </ol>
-
-        <div class="why">
-          <span>Citations API for source links</span>
-          <span>Structured outputs for the card schema</span>
-          <span>Prompt caching and Batches API for cost</span>
-        </div>
-      </div>
+        </ol>      </div>
 
       <div class="capture-art">
         <svg viewBox="0 0 560 260" role="img" aria-labelledby="captureArtTitle">
@@ -467,6 +481,88 @@
     </div>
   </div>
 </div>
+
+<section id="claude">
+  <div class="wrap">
+    <p class="kicker">Why Claude</p>
+    <h2>We use Claude because we can check its work.</h2>
+    <p class="sub">Our mission is to end educational inequality with AI. Every learner should get study material that fits them and that they can trust, whatever their family's income, region, or first language. Claude's API gives us what that takes: answers tied to source text, output locked to a schema, native reading of PDFs and photos, and cost controls that keep long textbooks affordable.</p>
+
+    <div class="tech-grid">
+      <article class="tech">
+        <span class="api">Citations API</span>
+        <h3>Every card links to its source</h3>
+        <p>Claude grounds each fact in the page or PDF you uploaded. The API returns the exact location as data (a page number for PDFs, a character range for text), so the link to the source is set by the API, not written by the model.</p>
+      </article>
+      <article class="tech">
+        <span class="api">Two requests</span>
+        <h3>Grounding and generation are separate steps</h3>
+        <p>The API rejects a request that combines Citations with structured outputs (HTTP 400). So the pipeline runs in two passes: a grounding pass collects cited facts, then a generation pass turns them into cards under a fixed schema.</p>
+      </article>
+      <article class="tech">
+        <span class="api">Structured outputs</span>
+        <h3>Cards in a fixed format</h3>
+        <p>Each card is produced against a JSON schema: type, front, back, concept ID, source span IDs, difficulty hint, and tags. Output is constrained to the schema, so cards arrive in a predictable shape without retry loops for malformed JSON.</p>
+      </article>
+      <article class="tech">
+        <span class="api">Files API · vision · long context</span>
+        <h3>Reads the material students actually have</h3>
+        <p>Textbook PDFs, lecture slides, and photos of printed pages or handwritten notes. PDFs are read as text and as page images, so diagrams are not lost, and long context lets a full lecture PDF go through in one pass.</p>
+      </article>
+      <article class="tech">
+        <span class="api">Prompt caching · Batches API</span>
+        <h3>Costs that can be planned</h3>
+        <p>The shared source text is cached across card batches. Non-urgent bulk work runs through the Message Batches API at 50% of standard prices, and the two discounts stack. Smaller models handle the simple steps, because low cost per textbook is part of the mission.</p>
+      </article>
+      <article class="tech">
+        <span class="api">Server-side key</span>
+        <h3>The API key stays on our server</h3>
+        <p>The app talks to our own backend, which holds the API key, so the key never ships inside the app. Planned protections include App Attest for device checks and StoreKit 2 signed transactions for purchases.</p>
+      </article>
+    </div>
+
+    <div class="schema-row">
+      <div>
+        <h3>Every card carries its source IDs</h3>
+        <p>A card is built from spans the grounding pass returned. The verify step drops any card the cited source cannot answer, and any duplicate. Nothing joins the FSRS schedule until the learner approves it.</p>
+      </div>
+      <div>
+        <pre class="code" aria-label="Example card JSON"><code>{
+  "type": "basic",
+  "front": "What does the FSRS rating scale control?",
+  "back": "When the card is shown again.",
+  "concept_id": "fsrs-rating",
+  "source_span_ids": ["s12"],
+  "difficulty_hint": 2,
+  "tags": ["fsrs", "review"]
+}</code></pre>
+        <p class="cap">Example card (illustrative)</p>
+      </div>
+    </div>
+
+    <div class="mission-points">
+      <div class="point">
+        <b>Quality</b>
+        <p>Each card traces back to the text it came from. A second pass removes unsupported and duplicate cards, and the learner approves every card before it is scheduled.</p>
+      </div>
+      <div class="point">
+        <b>Personalization</b>
+        <p>Cards come from the material a learner is actually studying, not a generic deck. FSRS schedules each learner's reviews from their own answers.</p>
+      </div>
+      <div class="point">
+        <b>Access</b>
+        <p>We start with learners in Japan: students from low-income households, students in areas with few teachers or cram schools, and children and adults with roots abroad who are learning Japanese.</p>
+      </div>
+    </div>
+
+    <p class="claude-foot">
+      <span>AnkiAI Capture is in development. The pipeline above is our design, and this page will be updated when it ships.</span>
+      <a href="https://platform.claude.com/docs/en/build-with-claude/citations">Citations docs</a>
+      <a href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs">Structured outputs docs</a>
+      <a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing">Batch processing docs</a>
+    </p>
+  </div>
+</section>
 
 </main>
 
