@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ryota Labs — Indie iOS apps</title>
-<meta name="description" content="Small, focused iPhone apps built and maintained by Ryota Labs, an independent studio in Japan.">
+<title>Ryota Labs — Small iPhone apps for learning and everyday life</title>
+<meta name="description" content="Ryota Labs is an independent studio in Japan building focused iPhone apps for study, campus commuting, and everyday tools. Every app is live on the App Store.">
+<meta name="theme-color" content="#14213D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -14,121 +15,474 @@
     --ink:#14213D;
     --muted:#55607A;
     --line:#D9DDE3;
-    --sign:#F2C230;   /* bus-stop yellow */
+    --sign:#F2C230;
     --pine:#2F6E5B;
+    --coral:#E9573F;
+    --sky:#DCE8FF;
+    --rose:#F7D6DE;
     --font:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
   }
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.7;overflow-x:hidden}
   a{color:inherit}
-  a:focus-visible{outline:3px solid var(--sign);outline-offset:3px;border-radius:6px}
-  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  a:focus-visible{outline:3px solid var(--sign);outline-offset:3px;border-radius:8px}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  section[id]{scroll-margin-top:72px}
 
-  header{padding:72px 0 40px}
-  .who{font-size:15px;color:var(--muted);margin:0 0 20px}
-  h1{font-weight:900;font-size:clamp(40px,7.5vw,84px);line-height:1.02;letter-spacing:-.02em;margin:0;max-width:12ch}
-  .lede{max-width:56ch;margin:28px 0 0;font-size:19px;color:var(--muted)}
+  /* top bar */
+  .top{position:sticky;top:0;z-index:10;background:rgba(246,247,244,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:900;text-decoration:none;letter-spacing:-.01em}
+  .mark{width:30px;height:30px;border-radius:9px;background:var(--ink);display:grid;place-items:center}
+  .mark i{display:block;width:12px;height:12px;border-radius:3px;background:var(--sign);transform:rotate(12deg)}
+  .top nav{display:flex;gap:22px}
+  .top nav a{font-size:15px;text-decoration:none;color:var(--muted)}
+  .top nav a:hover{color:var(--ink)}
 
-  /* home-screen shelf: the one bold element */
-  .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:28px 20px;margin:56px 0 16px;padding:32px;background:var(--ink);border-radius:36px}
-  .app{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:#fff}
-  .icon{width:96px;height:96px;border-radius:24px;display:grid;place-items:center;font-weight:900;font-size:30px;letter-spacing:-.03em}
-  .app span{margin-top:10px;font-size:14px;line-height:1.35}
-  .app:hover .icon{transform:translateY(-2px)}
-  .icon{transition:transform .15s ease}
-  @media (prefers-reduced-motion:reduce){.icon{transition:none}}
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:76px 0 84px}
+  .hero::before{content:"";position:absolute;width:760px;height:760px;border-radius:50%;right:-240px;top:-200px;background:radial-gradient(circle,rgba(242,194,48,.38) 0%,rgba(242,194,48,0) 66%);pointer-events:none}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--pine);background:#fff;border:1px solid var(--line);padding:6px 14px;border-radius:999px;margin:0 0 26px}
+  .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pine)}
+  h1{font-weight:900;font-size:clamp(40px,6.2vw,70px);line-height:1.04;letter-spacing:-.025em;margin:0}
+  h1 em{font-style:normal;background:linear-gradient(transparent 58%,var(--sign) 58%,var(--sign) 92%,transparent 92%);padding:0 2px}
+  .lede{max-width:50ch;margin:24px 0 0;font-size:19px;color:var(--muted)}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;background:var(--ink);color:#fff;text-decoration:none;font-weight:700;transition:transform .15s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+  .stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 18px;min-width:132px}
+  .stat b{display:block;font-size:24px;font-weight:900;line-height:1.2}
+  .stat span{font-size:13px;color:var(--muted)}
+  .hero-art svg{width:100%;height:auto}
+  .float{animation:bob 6s ease-in-out infinite}
+  .float.d{animation-delay:-3s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 
-  section{padding:56px 0;border-top:1px solid var(--line)}
-  h2{font-size:28px;font-weight:700;margin:0 0 24px}
-  .list{display:grid;gap:28px}
-  .item{display:grid;grid-template-columns:200px 1fr;gap:24px}
-  .item h3{margin:0;font-size:18px;font-weight:700}
-  .item .cat{font-size:14px;color:var(--muted)}
-  .item p{margin:0;max-width:62ch}
-  .note{font-size:14px;color:var(--muted);margin-top:6px}
-  .claude{background:#fff;border-left:6px solid var(--sign);padding:24px 28px;border-radius:0 16px 16px 0;max-width:70ch}
-  .claude p{margin:0 0 12px}
-  .claude p:last-child{margin:0}
-  footer{padding:48px 0 72px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+  /* sections */
+  section{padding:96px 0}
+  .kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--pine);margin:0 0 12px}
+  h2{font-size:clamp(30px,4.2vw,44px);line-height:1.14;font-weight:900;margin:0 0 16px;letter-spacing:-.02em}
+  .sub{max-width:60ch;color:var(--muted);margin:0 0 44px;font-size:18px}
+
+  /* apps */
+  .apps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .app-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:26px;padding:14px 14px 24px;text-decoration:none;transition:transform .22s ease,box-shadow .22s ease}
+  .app-card:hover{transform:translateY(-5px);box-shadow:0 22px 44px -24px rgba(20,33,61,.5)}
+  .app-art{border-radius:18px;aspect-ratio:4/3;display:grid;place-items:center;overflow:hidden}
+  .app-art svg{width:58%;height:auto}
+  .app-card h3{font-size:20px;font-weight:700;line-height:1.3;margin:20px 6px 4px}
+  .app-card .cat{font-size:13px;color:var(--muted);margin:0 6px 10px}
+  .app-card p{margin:0 6px;color:var(--muted);font-size:15px;line-height:1.65}
+  .app-card .go{margin:auto 6px 0;padding-top:16px;font-size:14px;font-weight:700}
+  .app-card .go::after{content:" \2192"}
+  .note{font-size:14px;color:var(--muted);margin:12px 6px 0;padding-top:12px;border-top:1px dashed var(--line)}
+
+  /* mission */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .pillar{background:#fff;border:1px solid var(--line);border-radius:26px;padding:30px}
+  .pillar .ico{width:72px;height:72px;border-radius:22px;display:grid;place-items:center;margin-bottom:20px}
+  .pillar .ico svg{width:46px;height:46px}
+  .pillar h3{margin:0 0 8px;font-size:21px;font-weight:900}
+  .pillar p{margin:0;color:var(--muted)}
+
+  /* capture band */
+  .band{margin:0 16px;border-radius:40px;background:var(--ink);color:#F6F7F4;padding:88px 0;position:relative;overflow:hidden}
+  .band::after{content:"";position:absolute;right:-120px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(242,194,48,.22),rgba(242,194,48,0) 68%);pointer-events:none}
+  .band .kicker{color:var(--sign)}
+  .band .sub{color:#B9C2D6}
+  .band h2{color:#fff}
+  .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;padding:4px 12px;border-radius:999px;background:var(--sign);color:var(--ink);margin-left:10px;vertical-align:middle}
+  .capture-grid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .capture-art svg{width:100%;height:auto}
+  .flow{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px;counter-reset:s}
+  .flow li{counter-increment:s;display:grid;grid-template-columns:42px 1fr;gap:14px;align-items:start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px 16px}
+  .flow li::before{content:counter(s);width:42px;height:42px;border-radius:14px;background:var(--sign);color:var(--ink);display:grid;place-items:center;font-weight:900}
+  .flow b{display:block;font-size:16px}
+  .flow span{color:#B9C2D6;font-size:15px;line-height:1.6}
+  .why{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  .why span{font-size:14px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:48px 0 64px;color:var(--muted);font-size:15px}
+  footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;align-items:center}
   footer a{color:var(--ink);font-weight:700}
+  footer nav{display:flex;flex-wrap:wrap;gap:18px}
 
-  @media (max-width:640px){
-    header{padding:48px 0 24px}
-    .shelf{padding:24px 16px;border-radius:28px;grid-template-columns:repeat(3,1fr);gap:20px 8px}
-    .icon{width:72px;height:72px;border-radius:18px;font-size:22px}
-    .app span{font-size:12px}
-    .item{grid-template-columns:1fr;gap:6px}
+  /* responsive */
+  .hero-grid > *,.capture-grid > *,.apps-grid > *,.pillars > *{min-width:0}
+  @media (max-width:900px){
+    .hero::before{display:none}
+    .hero-grid,.capture-grid{grid-template-columns:minmax(0,1fr)}
+    .hero-art{max-width:520px;width:100%;margin:0 auto}
+    .apps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .pillars{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width:600px){
+    .wrap{padding:0 16px}
+    .top nav a:not(.keep){display:none}
+    section{padding:72px 0}
+    .apps-grid{grid-template-columns:1fr}
+    .band{margin:0 8px;border-radius:26px;padding:64px 0}
+    .stat{min-width:0;flex:1 1 130px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .float{animation:none}
+    .btn{transition:none}
+    .app-card{transition:none}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <p class="who">Ryota Labs — independent app studio, Japan</p>
-  <h1>Small iPhone apps for everyday problems.</h1>
-  <p class="lede">I design, build, and maintain focused iOS apps on my own: study tools, personal record-keeping, and utilities for people who use AI every day. Every app below is live on the App Store.</p>
-
-  <nav class="shelf" aria-label="Apps">
-    <a class="app" href="https://apps.apple.com/app/id6761328158"><div class="icon" style="background:#F7D6DE;color:#8A2D45">美</div><span>美容医療を<br>かんたん管理</span></a>
-    <a class="app" href="https://apps.apple.com/app/id6760307611"><div class="icon" style="background:var(--sign);color:var(--ink)">Ai</div><span>AnkiAI<br>FlashCards</span></a>
-    <a class="app" href="https://apps.apple.com/app/id6749826426"><div class="icon" style="background:#DCE8FF;color:#1F4FB8">💬</div><span>AIチャット<br>画像変換</span></a>
-    <a class="app" href="https://apps.apple.com/app/id6744859226"><div class="icon" style="background:var(--pine);color:#fff">Gt</div><span>GitAITrend</span></a>
-    <a class="app" href="https://apps.apple.com/app/id6741425012"><div class="icon" style="background:#fff;color:var(--ink)">QR</div><span>QR Keeper</span></a>
-    <a class="app" href="https://apps.apple.com/jp/app/id1491015874"><div class="icon" style="background:#E9573F;color:#fff">🚌</div><span>Busdes!</span></a>
-  </nav>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Ryota Labs home">
+      <span class="mark"><i></i></span>
+      <span>Ryota Labs</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#apps">Apps</a>
+      <a href="#mission">Mission</a>
+      <a href="#capture">Claude</a>
+      <a class="keep" href="#contact">Contact</a>
+    </nav>
+  </div>
 </header>
 
-<section>
-  <h2>Apps</h2>
-  <div class="list">
-    <div class="item">
-      <div><h3>美容医療をかんたん管理</h3><div class="cat">Health &amp; Fitness · 2026</div></div>
-      <p>A simple log for aesthetic-clinic treatments: what was done, when, and what comes next.</p>
+<main id="top">
+
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Independent app studio · Japan</p>
+      <h1>Small iPhone apps that make <em>learning</em> and everyday life easier.</h1>
+      <p class="lede">We design, build, and maintain focused apps for study, campus life, and the everyday tools people reach for again and again. Every app below is live on the App Store.</p>
+      <div class="cta">
+        <a class="btn" href="#apps">Explore the apps</a>
+        <a class="btn ghost" href="#capture">How we use Claude</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>15,000+</b><span>total downloads</span></div>
+        <div class="stat"><b>6</b><span>apps on the App Store</span></div>
+        <div class="stat"><b>FSRS</b><span>spaced repetition built in</span></div>
+      </div>
     </div>
-    <div class="item">
-      <div><h3>AnkiAI FlashCards</h3><div class="cat">Education · 2026</div></div>
-      <p>Flashcards scheduled with FSRS spaced repetition. Works fully offline, syncs across devices with an account, and imports decks from CSV. Free with an optional subscription.</p>
-    </div>
-    <div class="item">
-      <div><h3>AIチャット画像変換</h3><div class="cat">Productivity · 2025</div></div>
-      <p>Turns AI chat transcripts and Markdown snippets into clean images you can post on social media or send to your team.</p>
-    </div>
-    <div class="item">
-      <div><h3>GitAITrend</h3><div class="cat">Productivity · 2025</div></div>
-      <p>Keeps up with trending AI projects on GitHub.</p>
-    </div>
-    <div class="item">
-      <div><h3>QR Keeper</h3><div class="cat">Photo &amp; Video · 2025</div></div>
-      <p>Saves and organizes the QR codes you need to show again.</p>
-    </div>
-    <div class="item">
-      <div><h3>Busdes!</h3><div class="cat">Navigation · since 2019</div></div>
-      <p>Real-time bus arrivals, delay-adjusted arrival times, and custom routes for students commuting to a university campus in Shiga, on iOS and Android. Rated 4.5 from 151 ratings and still in use today.</p>
-      <p class="note">Founded and led as a four-person student project, recognized with a university scholarship, and transferred to a new maintainer in 2023.</p>
+
+    <div class="hero-art" aria-hidden="false">
+      <svg viewBox="0 0 520 440" role="img" aria-labelledby="heroArtTitle">
+        <title id="heroArtTitle">A flashcard on a phone in front of a campus bus</title>
+        <defs>
+          <linearGradient id="busGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#F26B52"/>
+            <stop offset="1" stop-color="#E9573F"/>
+          </linearGradient>
+        </defs>
+        <circle cx="262" cy="206" r="190" fill="#F2C230" opacity=".28"/>
+        <circle cx="60" cy="96" r="6" fill="#2F6E5B"/>
+        <circle cx="478" cy="318" r="9" fill="#E9573F"/>
+        <path d="M24 366 H496" stroke="#14213D" stroke-width="44" stroke-linecap="round"/>
+        <path d="M60 366 H110 M160 366 H210 M260 366 H310 M360 366 H410 M440 366 H460" stroke="#F2C230" stroke-width="5" stroke-linecap="round"/>
+
+        <g transform="translate(270 206)">
+          <rect width="210" height="112" rx="26" fill="url(#busGrad)"/>
+          <rect x="18" y="22" width="70" height="46" rx="10" fill="#DCE8FF"/>
+          <rect x="98" y="22" width="70" height="46" rx="10" fill="#DCE8FF"/>
+          <rect x="176" y="22" width="20" height="82" rx="6" fill="#DCE8FF" opacity=".78"/>
+          <rect x="18" y="84" width="150" height="8" rx="4" fill="#14213D" opacity=".18"/>
+          <rect x="50" y="-16" width="110" height="22" rx="7" fill="#14213D"/>
+          <text x="105" y="0" text-anchor="middle" font-size="13" font-weight="700" fill="#F2C230" letter-spacing="2">CAMPUS</text>
+          <circle cx="50" cy="112" r="22" fill="#14213D"/><circle cx="50" cy="112" r="9" fill="#D9DDE3"/>
+          <circle cx="160" cy="112" r="22" fill="#14213D"/><circle cx="160" cy="112" r="9" fill="#D9DDE3"/>
+        </g>
+
+        <g transform="translate(70 56) rotate(-7 100 180)">
+          <rect width="200" height="370" rx="36" fill="#14213D"/>
+          <rect x="12" y="14" width="176" height="342" rx="26" fill="#F6F7F4"/>
+          <rect x="78" y="24" width="44" height="12" rx="6" fill="#14213D"/>
+          <rect x="24" y="62" width="152" height="214" rx="20" fill="#fff" stroke="#D9DDE3" stroke-width="2"/>
+          <text x="100" y="104" text-anchor="middle" font-size="13" font-weight="700" fill="#2F6E5B" letter-spacing="2">FSRS · REVIEW</text>
+          <text x="100" y="142" text-anchor="middle" font-size="22" font-weight="900" fill="#14213D">Retention</text>
+          <text x="100" y="170" text-anchor="middle" font-size="22" font-weight="900" fill="#14213D">curve</text>
+          <rect x="44" y="196" width="112" height="24" rx="8" fill="#F2C230"/>
+          <rect x="44" y="232" width="92" height="8" rx="4" fill="#D9DDE3"/>
+          <rect x="44" y="248" width="112" height="8" rx="4" fill="#D9DDE3"/>
+          <rect x="24" y="296" width="46" height="34" rx="12" fill="#E9573F"/>
+          <rect x="77" y="296" width="46" height="34" rx="12" fill="#F2C230"/>
+          <rect x="130" y="296" width="46" height="34" rx="12" fill="#2F6E5B"/>
+        </g>
+
+        <g transform="translate(300 40) rotate(9)">
+          <g class="float">
+            <rect width="128" height="84" rx="16" fill="#2F6E5B"/>
+            <rect x="16" y="20" width="60" height="8" rx="4" fill="#F6F7F4"/>
+            <rect x="16" y="38" width="90" height="8" rx="4" fill="#F6F7F4" opacity=".6"/>
+            <rect x="16" y="56" width="70" height="8" rx="4" fill="#F6F7F4" opacity=".6"/>
+          </g>
+        </g>
+        <g transform="translate(402 128) rotate(-8)">
+          <g class="float d">
+            <rect width="96" height="64" rx="14" fill="#fff" stroke="#14213D" stroke-width="3"/>
+            <rect x="14" y="16" width="44" height="7" rx="3.5" fill="#14213D"/>
+            <rect x="14" y="32" width="66" height="7" rx="3.5" fill="#D9DDE3"/>
+            <rect x="14" y="46" width="34" height="7" rx="3.5" fill="#F2C230"/>
+          </g>
+        </g>
+        <path d="M452 40 l6 16 16 6 -16 6 -6 16 -6 -16 -16 -6 16 -6z" fill="#14213D"/>
+        <path d="M40 214 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#E9573F"/>
+      </svg>
     </div>
   </div>
-</section>
-
-<section>
-  <h2>Building with Claude</h2>
-  <div class="claude">
-    <!-- 公開・TestFlight配布したら "In development" を "Live" に変える -->
-    <p><strong>In development: AnkiAI Capture.</strong> Photograph a textbook page, upload a lecture PDF, or paste meeting notes, and Claude turns it into a ready-to-study deck. Each card links back to the exact line it came from, so learners can check it before it enters their FSRS review schedule.</p>
-    <p>Claude handles reading the source (including handwriting and diagrams), choosing what is worth memorizing, and writing clear question-and-answer pairs. Users review and edit every card before saving it. Card generation is part of the premium plan.</p>
-    <p><strong>Why Claude:</strong> Capture reads PDFs natively (text and page images), grounds every card with the Citations API so its source link comes from the API rather than model-written text, and emits cards through structured outputs. Prompt caching and the Batches API keep a full textbook deck inside the subscription's margin. <a href="/capture">Read the technical design</a>.</p>
-    <p><strong>Next:</strong> a weekly digest in GitAITrend that uses Claude to explain what each trending AI repository does and who it is for, in plain Japanese and English.</p>
-  </div>
-</section>
-
 </div>
-<footer>
+
+<section id="apps">
   <div class="wrap">
-    <p style="margin:0 0 8px">Ryota Labs — independent app studio based in Japan.</p>
-    <a href="/privacy">Privacy policy</a> &nbsp;/&nbsp; <a href="/terms">Terms of use</a> &nbsp;/&nbsp;
-    Contact: <a href="mailto:hello@ryotalabs.com">hello@ryotalabs.com</a> &nbsp;/&nbsp; <a href="https://apps.apple.com/developer/id1794113380">App Store</a>
+    <p class="kicker">Our apps</p>
+    <h2>Six apps, one small studio.</h2>
+    <p class="sub">Each app is built to do one job well: help you remember, get you there, or keep everyday information in order.</p>
+
+    <div class="apps-grid">
+
+      <a class="app-card" href="https://apps.apple.com/app/id6760307611">
+        <div class="app-art" style="background:var(--sign)">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <rect x="24" y="24" width="56" height="40" rx="9" fill="#14213D" transform="rotate(-10 52 44)"/>
+            <rect x="36" y="38" width="56" height="40" rx="9" fill="#fff" stroke="#14213D" stroke-width="3"/>
+            <rect x="46" y="50" width="34" height="6" rx="3" fill="#14213D"/>
+            <rect x="46" y="62" width="24" height="6" rx="3" fill="#D9DDE3"/>
+            <path d="M24 98 C44 96 54 74 92 70" stroke="#14213D" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="92" cy="70" r="5" fill="#2F6E5B"/>
+          </svg>
+        </div>
+        <h3>AnkiAI FlashCards</h3>
+        <div class="cat">Education · 2026</div>
+        <p>Flashcards scheduled with FSRS spaced repetition. Works fully offline, syncs across devices with an account, and imports decks from CSV.</p>
+        <span class="go">View on the App Store</span>
+      </a>
+
+      <a class="app-card" href="https://apps.apple.com/jp/app/id1491015874">
+        <div class="app-art" style="background:var(--coral)">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M92 30 q10 -10 20 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+            <path d="M90 20 q15 -15 30 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+            <rect x="22" y="40" width="72" height="50" rx="13" fill="#fff"/>
+            <rect x="31" y="49" width="26" height="18" rx="5" fill="#FBE3DC"/>
+            <rect x="63" y="49" width="22" height="18" rx="5" fill="#FBE3DC"/>
+            <rect x="22" y="76" width="72" height="5" fill="#E9573F" opacity=".25"/>
+            <circle cx="40" cy="96" r="8" fill="#14213D"/>
+            <circle cx="76" cy="96" r="8" fill="#14213D"/>
+          </svg>
+        </div>
+        <h3>Busdes!</h3>
+        <div class="cat">Navigation · since 2019</div>
+        <p>Real-time bus arrivals, delay-adjusted arrival times, and custom routes for students commuting to a university campus in Shiga.</p>
+        <p class="note">Rated 4.5 from 151 ratings and still in use. Started as a four-person student project, recognized with a university scholarship in 2023, and handed to a new maintainer the same year.</p>
+      </a>
+
+      <a class="app-card" href="https://apps.apple.com/app/id6749826426">
+        <div class="app-art" style="background:var(--sky)">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <path d="M24 30 h72 a10 10 0 0 1 10 10 v40 a10 10 0 0 1 -10 10 h-40 l-16 14 v-14 h-16 a10 10 0 0 1 -10 -10 v-40 a10 10 0 0 1 10 -10z" fill="#1F4FB8"/>
+            <rect x="40" y="44" width="44" height="32" rx="6" fill="#fff"/>
+            <path d="M44 72 L56 58 L64 66 L70 60 L80 72 Z" fill="#DCE8FF"/>
+            <circle cx="74" cy="52" r="4" fill="#F2C230"/>
+          </svg>
+        </div>
+        <h3>AIチャット画像変換</h3>
+        <div class="cat">Productivity · 2025</div>
+        <p>Turns AI chat transcripts and Markdown snippets into clean images you can share on social media or send to your team.</p>
+        <span class="go">View on the App Store</span>
+      </a>
+
+      <a class="app-card" href="https://apps.apple.com/app/id6744859226">
+        <div class="app-art" style="background:var(--pine)">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <polyline points="22,88 42,66 58,74 82,44 98,50" fill="none" stroke="#F6F7F4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="42" cy="66" r="5" fill="#F2C230"/>
+            <circle cx="82" cy="44" r="5" fill="#F2C230"/>
+            <path d="M86 30 H102 V46" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>GitAITrend</h3>
+        <div class="cat">Productivity · 2025</div>
+        <p>Keeps up with trending AI projects on GitHub, so you can see what is moving without scrolling through everything.</p>
+        <span class="go">View on the App Store</span>
+      </a>
+
+      <a class="app-card" href="https://apps.apple.com/app/id6741425012">
+        <div class="app-art" style="background:#EDEFF3">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <rect x="24" y="24" width="32" height="32" rx="6" fill="#14213D"/>
+            <rect x="31" y="31" width="18" height="18" rx="3" fill="#EDEFF3"/>
+            <rect x="37" y="37" width="6" height="6" rx="1" fill="#14213D"/>
+            <rect x="64" y="24" width="32" height="32" rx="6" fill="#14213D"/>
+            <rect x="71" y="31" width="18" height="18" rx="3" fill="#EDEFF3"/>
+            <rect x="77" y="37" width="6" height="6" rx="1" fill="#14213D"/>
+            <rect x="24" y="64" width="32" height="32" rx="6" fill="#14213D"/>
+            <rect x="31" y="71" width="18" height="18" rx="3" fill="#EDEFF3"/>
+            <rect x="37" y="77" width="6" height="6" rx="1" fill="#14213D"/>
+            <rect x="64" y="64" width="8" height="8" rx="2" fill="#14213D"/>
+            <rect x="76" y="64" width="8" height="8" rx="2" fill="#2F6E5B"/>
+            <rect x="88" y="64" width="8" height="8" rx="2" fill="#14213D"/>
+            <rect x="64" y="76" width="8" height="8" rx="2" fill="#F2C230"/>
+            <rect x="76" y="88" width="8" height="8" rx="2" fill="#14213D"/>
+            <rect x="88" y="76" width="8" height="8" rx="2" fill="#14213D"/>
+            <rect x="64" y="88" width="8" height="8" rx="2" fill="#14213D"/>
+          </svg>
+        </div>
+        <h3>QR Keeper</h3>
+        <div class="cat">Photo &amp; Video · 2025</div>
+        <p>Saves and organizes the QR codes you need to show again, so tickets, passes, and forms are always one tap away.</p>
+        <span class="go">View on the App Store</span>
+      </a>
+
+      <a class="app-card" href="https://apps.apple.com/app/id6761328158">
+        <div class="app-art" style="background:var(--rose)">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <rect x="26" y="28" width="68" height="70" rx="14" fill="#fff"/>
+            <rect x="26" y="28" width="68" height="20" rx="14" fill="#8A2D45"/>
+            <rect x="26" y="40" width="68" height="8" fill="#8A2D45"/>
+            <rect x="36" y="20" width="6" height="16" rx="3" fill="#8A2D45"/>
+            <rect x="78" y="20" width="6" height="16" rx="3" fill="#8A2D45"/>
+            <circle cx="42" cy="66" r="5" fill="#F7D6DE"/>
+            <circle cx="60" cy="66" r="5" fill="#E9A3B5"/>
+            <circle cx="78" cy="66" r="5" fill="#8A2D45"/>
+            <circle cx="42" cy="84" r="5" fill="#E9A3B5"/>
+            <circle cx="60" cy="84" r="5" fill="#8A2D45"/>
+            <path d="M92 60 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#F2C230"/>
+          </svg>
+        </div>
+        <h3>美容医療をかんたん管理</h3>
+        <div class="cat">Health &amp; Fitness · 2026</div>
+        <p>A simple log for aesthetic-clinic treatments: what was done, when, and what comes next.</p>
+        <span class="go">View on the App Store</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="mission" style="padding-top:24px">
+  <div class="wrap">
+    <p class="kicker">Why we build</p>
+    <h2>Tools that help people learn, move, and understand.</h2>
+    <p class="sub">We focus on everyday problems in education and public life. Our apps aim to be useful for years, not just for a launch week.</p>
+
+    <div class="pillars">
+      <article class="pillar">
+        <div class="ico" style="background:var(--sign)">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M6 12 Q16 8 24 14 Q32 8 42 12 V38 Q32 34 24 40 Q16 34 6 38Z" fill="#14213D"/>
+            <path d="M24 14 V40" stroke="#F2C230" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Learn</h3>
+        <p>Study tools built around how memory works: spaced repetition, offline access, and your own decks. Students should be able to study anywhere.</p>
+      </article>
+      <article class="pillar">
+        <div class="ico" style="background:#FBE3DC">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="8" y="10" width="32" height="26" rx="7" fill="#E9573F"/>
+            <rect x="12" y="15" width="10" height="8" rx="2" fill="#fff"/>
+            <rect x="26" y="15" width="10" height="8" rx="2" fill="#fff"/>
+            <circle cx="16" cy="38" r="4" fill="#14213D"/>
+            <circle cx="32" cy="38" r="4" fill="#14213D"/>
+          </svg>
+        </div>
+        <h3>Get around</h3>
+        <p>Real-time bus information for students commuting to a university campus in Shiga, so the trip is one less thing to worry about.</p>
+      </article>
+      <article class="pillar">
+        <div class="ico" style="background:var(--sky)">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="20" r="13" fill="#F2C230"/>
+            <rect x="18" y="32" width="12" height="9" rx="3" fill="#14213D"/>
+          </svg>
+        </div>
+        <h3>Think clearly</h3>
+        <p>AI features should show their sources. We design ours to point back to the text they came from, so people can check the result themselves.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="band" id="capture">
+  <div class="wrap">
+    <div class="capture-grid">
+      <div>
+        <p class="kicker">Built with Claude</p>
+        <h2>AnkiAI Capture <span class="tag">In development</span></h2>
+        <p class="sub" style="margin-bottom:0">Photograph a textbook page, drop in a lecture PDF, or paste notes. Claude writes flashcards and links every card to the sentence it came from. You review and edit each card before it joins your FSRS schedule.</p>
+
+        <ol class="flow">
+          <li><div><b>Ingest</b><span>Camera pages and PDFs are uploaded once and referenced for every later step.</span></div></li>
+          <li><div><b>Ground</b><span>Claude lists the facts worth memorizing. The Citations API attaches the exact source spans.</span></div></li>
+          <li><div><b>Generate</b><span>Structured outputs turn each fact into a card that matches a fixed schema.</span></div></li>
+          <li><div><b>Verify</b><span>A second pass drops cards that the cited source cannot answer, and duplicates.</span></div></li>
+          <li><div><b>Review and schedule</b><span>You approve each card. Approved cards enter the FSRS review schedule.</span></div></li>
+        </ol>
+
+        <div class="why">
+          <span>Citations API for source links</span>
+          <span>Structured outputs for the card schema</span>
+          <span>Prompt caching and Batches API for cost</span>
+        </div>
+      </div>
+
+      <div class="capture-art">
+        <svg viewBox="0 0 560 260" role="img" aria-labelledby="captureArtTitle">
+          <title id="captureArtTitle">A highlighted line in a textbook page becomes a flashcard linked to that line</title>
+          <defs>
+            <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0 0 L10 5 L0 10z" fill="#F2C230"/>
+            </marker>
+          </defs>
+          <rect x="30" y="30" width="200" height="200" rx="14" fill="#F6F7F4" stroke="#F6F7F4" stroke-width="2" opacity=".96"/>
+          <rect x="46" y="96" width="170" height="22" rx="6" fill="#F2C230" opacity=".9"/>
+          <rect x="52" y="60" width="150" height="8" rx="4" fill="#D9DDE3"/>
+          <rect x="52" y="82" width="138" height="8" rx="4" fill="#D9DDE3"/>
+          <rect x="52" y="104" width="150" height="8" rx="4" fill="#14213D"/>
+          <rect x="52" y="126" width="120" height="8" rx="4" fill="#D9DDE3"/>
+          <rect x="52" y="148" width="150" height="8" rx="4" fill="#D9DDE3"/>
+          <rect x="52" y="170" width="96" height="8" rx="4" fill="#D9DDE3"/>
+          <path d="M246 130 H296" stroke="#F2C230" stroke-width="5" fill="none" stroke-linecap="round" marker-end="url(#arr)"/>
+          <g transform="translate(310 50)">
+            <rect width="220" height="160" rx="18" fill="#2F6E5B"/>
+            <text x="22" y="46" fill="#F2C230" font-size="14" font-weight="700">Q · FSRS</text>
+            <text x="22" y="84" fill="#F6F7F4" font-size="18" font-weight="700">What does the</text>
+            <text x="22" y="110" fill="#F6F7F4" font-size="18" font-weight="700">rating scale</text>
+            <text x="22" y="136" fill="#F6F7F4" font-size="18" font-weight="700">control?</text>
+          </g>
+          <g transform="translate(326 222)">
+            <rect width="190" height="26" rx="13" fill="#F6F7F4" opacity=".16"/>
+            <text x="95" y="18" text-anchor="middle" fill="#F6F7F4" font-size="12" font-weight="700">Source: page 42, highlighted line</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap row">
+    <div>
+      <p style="margin:0 0 6px;color:var(--ink);font-weight:700">Ryota Labs</p>
+      <p style="margin:0">Independent app studio based in Japan. Contact: <a href="mailto:hello@ryotalabs.com">hello@ryotalabs.com</a></p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/privacy">Privacy policy</a>
+      <a href="/terms">Terms of use</a>
+      <a href="https://apps.apple.com/developer/id1794113380">App Store</a>
+    </nav>
   </div>
 </footer>
+
 </body>
 </html>
